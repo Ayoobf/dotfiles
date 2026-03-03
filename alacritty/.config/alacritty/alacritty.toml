@@ -1,0 +1,21 @@
+[window]
+opacity = 0.98
+padding = { x = 15, y = 15 }
+title = "Terminal"
+decorations_theme_variant = "Dark"
+decorations = "Transparent"
+
+[font]
+size = 16.0
+normal = {family="JetBrainsMono NFP", style="Bold"}
+bold = {family="JetBrainsMono NFP", style="bold"}
+italic = {family="JetBrainsMono NFP", style="bold italic"}
+
+[cursor]
+style = { shape = "Beam", blinking = "On" }
+
+[keyboard]
+bindings = [{ key = "F11", action = "ToggleMaximized" }]
+
+[colors]
+primary.background = "#0c0c0c"
