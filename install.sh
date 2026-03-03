@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -euo pipefail
+set -eo pipefail
 
 DOTFILES_DIR="$(cd "$(dirname "$0")" && pwd)"
 
@@ -9,16 +9,17 @@ YELLOW='\033[0;33m'
 BLUE='\033[0;34m'
 NC='\033[0m' # No Color
 
-# Mapping: source (relative to DOTFILES_DIR) -> target (relative to $HOME)
-declare -A MAPPINGS=(
-    ["zsh/.zshrc"]=".zshrc"
-    ["nvim/.config/nvim"]=".config/nvim"
-    ["tmux/.config/tmux"]=".config/tmux"
-    ["alacritty/.config/alacritty"]=".config/alacritty"
+# Mappings: "source:target" (relative to DOTFILES_DIR and $HOME respectively)
+LINKS=(
+    "zsh/.zshrc:.zshrc"
+    "nvim/.config/nvim:.config/nvim"
+    "tmux/.config/tmux:.config/tmux"
+    "alacritty/.config/alacritty:.config/alacritty"
 )
 
-for src_rel in "${!MAPPINGS[@]}"; do
-    tgt_rel="${MAPPINGS[$src_rel]}"
+for entry in "${LINKS[@]}"; do
+    src_rel="${entry%%:*}"
+    tgt_rel="${entry#*:}"
     src="$DOTFILES_DIR/$src_rel"
     tgt="$HOME/$tgt_rel"
 
