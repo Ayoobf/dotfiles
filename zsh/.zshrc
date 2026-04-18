@@ -14,6 +14,7 @@ alias v="nvim"
 alias vim="nvim"
 alias vi="nvim"
 alias cls="clear"
+alias gpp="/opt/homebrew/opt/gppro/bin/gp"
 
 # PATH
 export PATH="$HOME/bin:$HOME/.local/bin:/usr/local/bin:$PATH"
