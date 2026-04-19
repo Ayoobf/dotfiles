@@ -132,9 +132,17 @@ elif [ "$OS" = "Linux" ]; then
         echo -e "${YELLOW}skip${NC}  pyenv (already installed)"
     fi
     
-    # keyd (Karabiner equivalent)
+    # keyd (Karabiner equivalent) — not in all repos, build from source if needed
     if ! command -v keyd &>/dev/null; then
-        $PKG keyd
+        if $PKG keyd 2>/dev/null; then
+            echo -e "${GREEN}installed${NC}  keyd"
+        else
+            echo -e "${BLUE}building${NC}  keyd from source..."
+            $PKG cmake gcc git
+            git clone https://github.com/rvaiya/keyd /tmp/keyd
+            make -C /tmp/keyd && sudo make -C /tmp/keyd install
+            rm -rf /tmp/keyd
+        fi
     else
         echo -e "${YELLOW}skip${NC}  keyd (already installed)"
     fi
