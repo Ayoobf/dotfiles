@@ -18,3 +18,9 @@
 	co = checkout
 	lg = log --oneline --graph --decorate
 	sync = "!f() { git add . && git commit -m \"$1\" && git push; }; f"
+[credential "https://github.com"]
+	helper = 
+	helper = !/home/linuxbrew/.linuxbrew/bin/gh auth git-credential
+[credential "https://gist.github.com"]
+	helper = 
+	helper = !/home/linuxbrew/.linuxbrew/bin/gh auth git-credential
