@@ -83,6 +83,16 @@ if [ "$OS" = "Darwin" ]; then
 elif [ "$OS" = "Linux" ]; then
     echo -e "${BLUE}Linux detected — installing dependencies...${NC}"
 
+    # Detect package manager
+    if command -v apt &>/dev/null; then
+        PKG="sudo apt install -y"
+    elif command -v dnf &>/dev/null; then
+        PKG="sudo dnf install -y"
+    else
+        echo -e "${YELLOW}warn${NC}  unknown package manager — skipping native installs"
+        PKG=""
+    fi
+
     # Install Homebrew if missing
     if ! command -v brew &>/dev/null; then
         /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
@@ -100,7 +110,7 @@ elif [ "$OS" = "Linux" ]; then
     # thefuck
     if ! command -v thefuck &>/dev/null; then
         if ! command -v pipx &>/dev/null; then
-            sudo apt install -y pipx
+            $PKG pipx
             pipx ensurepath
         fi
         pipx install thefuck
@@ -124,7 +134,7 @@ elif [ "$OS" = "Linux" ]; then
     
     # keyd (Karabiner equivalent)
     if ! command -v keyd &>/dev/null; then
-        sudo apt install -y keyd
+        $PKG keyd
     else
         echo -e "${YELLOW}skip${NC}  keyd (already installed)"
     fi
