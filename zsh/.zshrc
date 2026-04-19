@@ -9,12 +9,12 @@ export ZSH="$HOME/.oh-my-zsh"
 source $ZSH/oh-my-zsh.sh
 
 # Aliases
-eval $(thefuck --alias)
+command -v thefuck &>/dev/null && eval $(thefuck --alias)
 alias v="nvim"
 alias vim="nvim"
 alias vi="nvim"
 alias cls="clear"
-alias gpp="/opt/homebrew/opt/gppro/bin/gp"
+[ "$(uname)" = "Darwin" ] && alias gpp="/opt/homebrew/opt/gppro/bin/gp"
 alias ls="eza --icons"
 alias cat="bat"
 case "$(uname)" in
@@ -53,13 +53,13 @@ export VISUAL='nvim'
 export PATH="$PATH:/usr/local/go/bin"
 
 # fnm
-eval "$(fnm env --use-on-cd --shell zsh)"
+command -v fnm &>/dev/null && eval "$(fnm env --use-on-cd --shell zsh)"
 
 # zoxide (smarter cd)
-eval "$(zoxide init zsh)"
+command -v zoxide &>/dev/null && eval "$(zoxide init zsh)"
 
 # fzf (fuzzy finder + ctrl+r history)
-eval "$(fzf --zsh)"
+command -v fzf &>/dev/null && eval "$(fzf --zsh)"
 
 # SDKMAN
 export SDKMAN_DIR="$HOME/.sdkman"
@@ -68,8 +68,7 @@ export SDKMAN_DIR="$HOME/.sdkman"
 # pyenv
 export PYENV_ROOT="$HOME/.pyenv"
 export PATH="$PYENV_ROOT/bin:$PATH"
-eval "$(pyenv init --path)"
-eval "$(pyenv init -)"
+command -v pyenv &>/dev/null && eval "$(pyenv init --path)" && eval "$(pyenv init -)"
 
 # iTerm2
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
