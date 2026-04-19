@@ -15,7 +15,12 @@ alias vim="nvim"
 alias vi="nvim"
 alias cls="clear"
 alias gpp="/opt/homebrew/opt/gppro/bin/gp"
-eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+alias ls="eza --icons"
+alias cat="bat"
+case "$(uname)" in
+    Darwin) eval "$(/opt/homebrew/bin/brew shellenv)" ;;
+    Linux)  [ -f /home/linuxbrew/.linuxbrew/bin/brew ] && eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)" ;;
+esac
 
 # PATH
 export PATH="$HOME/bin:$HOME/.local/bin:/usr/local/bin:$PATH"
@@ -49,6 +54,12 @@ export PATH="$PATH:/usr/local/go/bin"
 
 # fnm
 eval "$(fnm env --use-on-cd --shell zsh)"
+
+# zoxide (smarter cd)
+eval "$(zoxide init zsh)"
+
+# fzf (fuzzy finder + ctrl+r history)
+eval "$(fzf --zsh)"
 
 # SDKMAN
 export SDKMAN_DIR="$HOME/.sdkman"

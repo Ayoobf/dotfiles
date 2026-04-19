@@ -9,9 +9,11 @@ NC='\033[0m' # No Color
 # Mappings: "source:target" (relative to DOTFILES_DIR and $HOME respectively)
 LINKS=(
     "zsh/.zshrc:.zshrc"
-    "nvim/.config/nvim:.config/nvim"
     "tmux/.config/tmux:.config/tmux"
     "alacritty/.config/alacritty:.config/alacritty"
+    "git/.gitconfig:.gitconfig"
+    "git/.gitignore_global:.gitignore_global"
+    "gh/config.yml:.config/gh/config.yml"
 )
 for entry in "${LINKS[@]}"; do
     src_rel="${entry%%:*}"
@@ -35,6 +37,14 @@ for entry in "${LINKS[@]}"; do
     echo -e "${GREEN}link${NC}   $tgt -> $src"
 done
 
+# Force zsh as default shell
+if [ "$SHELL" != "$(which zsh)" ]; then
+    chsh -s "$(which zsh)"
+    echo -e "${GREEN}shell${NC}  zsh set as default"
+else
+    echo -e "${YELLOW}skip${NC}  zsh (already default)"
+fi
+
 # Detect OS and run platform-specific installs
 OS="$(uname)"
 
@@ -44,6 +54,13 @@ if [ "$OS" = "Darwin" ]; then
         /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
     fi
     brew bundle install --file="$DOTFILES_DIR/Brewfile"
+
+    # Oh My Zsh
+    if [ ! -d "$HOME/.oh-my-zsh" ]; then
+        sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
+    else
+        echo -e "${YELLOW}skip${NC}  oh-my-zsh (already installed)"
+    fi
 
 elif [ "$OS" = "Linux" ]; then
     echo -e "${BLUE}Linux detected — installing dependencies...${NC}"
@@ -80,6 +97,36 @@ elif [ "$OS" = "Linux" ]; then
         echo -e "${YELLOW}skip${NC}  pyenv (already installed)"
     fi
 
+fi
+
+# Neovim config
+NVIM_DIR="${XDG_CONFIG_HOME:-$HOME/.config}/nvim"
+if [ ! -d "$NVIM_DIR/.git" ]; then
+    git clone git@github.com:ayoobf/neovim.nvim.git "$NVIM_DIR"
+    echo -e "${GREEN}cloned${NC} neovim config -> $NVIM_DIR"
+else
+    echo -e "${YELLOW}skip${NC}  neovim config (already cloned)"
+fi
+
+# SSH key
+if [ ! -f "$HOME/.ssh/id_ed25519" ]; then
+    mkdir -p "$HOME/.ssh" && chmod 700 "$HOME/.ssh"
+    ssh-keygen -t ed25519 -C "rflooivl@gmail.com" -f "$HOME/.ssh/id_ed25519" -N ""
+    echo -e "${GREEN}created${NC}  SSH key ~/.ssh/id_ed25519"
+else
+    echo -e "${YELLOW}skip${NC}  SSH key (already exists)"
+fi
+
+# gh auth + register SSH key with GitHub
+if command -v gh &>/dev/null; then
+    if ! gh auth status &>/dev/null; then
+        gh auth login
+        if [ -f "$HOME/.ssh/id_ed25519.pub" ]; then
+            gh ssh-key add "$HOME/.ssh/id_ed25519.pub" --title "$(hostname)"
+        fi
+    else
+        echo -e "${YELLOW}skip${NC}  gh auth (already authenticated)"
+    fi
 fi
 
 echo ""
