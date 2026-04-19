@@ -109,7 +109,7 @@ fi
 # Neovim config
 NVIM_DIR="${XDG_CONFIG_HOME:-$HOME/.config}/nvim"
 if [ ! -d "$NVIM_DIR/.git" ]; then
-    git clone git@github.com:ayoobf/neovim.nvim.git "$NVIM_DIR"
+    git clone https://github.com/ayoobf/neovim.nvim.git "$NVIM_DIR"
     echo -e "${GREEN}cloned${NC} neovim config -> $NVIM_DIR"
 else
     echo -e "${YELLOW}skip${NC}  neovim config (already cloned)"
