@@ -15,10 +15,11 @@ alias vim="nvim"
 alias vi="nvim"
 alias cls="clear"
 alias gpp="/opt/homebrew/opt/gppro/bin/gp"
+eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 
 # PATH
 export PATH="$HOME/bin:$HOME/.local/bin:/usr/local/bin:$PATH"
-
+export PATH="$PATH:/opt/nvim-linux-x86_64/bin"
 case "$(uname)" in
     Darwin)
         export PNPM_HOME="$HOME/Library/pnpm"
