@@ -43,5 +43,11 @@ for entry in "${LINKS[@]}"; do
     echo -e "${GREEN}link${NC}   $tgt -> $src"
 done
 
+
+# Install Homebrew if missing
+if ! command -v brew &>/dev/null; then
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+fi
+brew bundle install --file="$DOTFILES_DIR/Brewfile"
 echo ""
 echo "Done!"
