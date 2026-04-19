@@ -9,14 +9,6 @@ My dotfiles managed with plain git and a simple install script.
 - **tmux** - tmux config with kanagawa theme, vim-tmux-navigator, tpm
 - **alacritty** - Alacritty terminal config
 
-## Prerequisites
-
-- [oh-my-zsh](https://ohmyz.sh/)
-- [Neovim](https://neovim.io/)
-- [tmux](https://github.com/tmux/tmux) + [tpm](https://github.com/tmux-plugins/tpm)
-- [Alacritty](https://alacritty.org/)
-- [JetBrainsMono Nerd Font](https://www.nerdfonts.com/)
-
 ## Install
 
 ```sh
