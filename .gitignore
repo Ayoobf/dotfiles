@@ -2,3 +2,4 @@
 *.zwc
 packer_compiled.lua
 gh/hosts.yml
+karabiner/.config/karabiner/automatic_backups

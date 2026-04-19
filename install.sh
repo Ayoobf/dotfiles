@@ -55,6 +55,19 @@ if [ "$OS" = "Darwin" ]; then
     fi
     brew bundle install --file="$DOTFILES_DIR/Brewfile"
 
+    # Karabiner (macOS only)
+    KARABINER_SRC="$DOTFILES_DIR/karabiner/.config/karabiner"
+    KARABINER_TGT="$HOME/.config/karabiner"
+    if [ -d "$KARABINER_SRC" ]; then
+        if [ -L "$KARABINER_TGT" ] && [ "$(readlink "$KARABINER_TGT")" = "$KARABINER_SRC" ]; then
+            echo -e "${YELLOW}skip${NC}  karabiner (already linked)"
+        else
+            [ -e "$KARABINER_TGT" ] && mv "$KARABINER_TGT" "${KARABINER_TGT}.backup"
+            ln -s "$KARABINER_SRC" "$KARABINER_TGT"
+            echo -e "${GREEN}link${NC}   karabiner -> $KARABINER_SRC"
+        fi
+    fi
+
     # Oh My Zsh
     if [ ! -d "$HOME/.oh-my-zsh" ]; then
         sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
