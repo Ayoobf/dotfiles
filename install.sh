@@ -55,6 +55,11 @@ if [ "$OS" = "Darwin" ]; then
     fi
     brew bundle install --file="$DOTFILES_DIR/Brewfile"
 
+    # Cargo packages (brew bundle doesn't run cargo installs)
+    if command -v cargo &>/dev/null; then
+        cargo install tree-sitter-cli
+    fi
+
     # Karabiner (macOS only)
     KARABINER_SRC="$DOTFILES_DIR/karabiner/.config/karabiner"
     KARABINER_TGT="$HOME/.config/karabiner"
