@@ -109,6 +109,16 @@ elif [ "$OS" = "Linux" ]; then
     else
         echo -e "${YELLOW}skip${NC}  pyenv (already installed)"
     fi
+    
+    # keyd (Karabiner equivalent)
+    if ! command -v keyd &>/dev/null; then
+        sudo apt install -y keyd
+    else
+        echo -e "${YELLOW}skip${NC}  keyd (already installed)"
+    fi
+    sudo mkdir -p /etc/keyd
+    sudo ln -sf "$DOTFILES_DIR/keyd/default.conf" /etc/keyd/default.conf
+    sudo systemctl enable --now keyd
 
 fi
 
