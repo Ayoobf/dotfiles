@@ -99,6 +99,13 @@ elif [ "$OS" = "Linux" ]; then
 
 fi
 
+# iTerm2 preferences
+if [ "$OS" = "Darwin" ]; then
+    defaults write com.googlecode.iterm2 PrefsCustomFolder -string "$DOTFILES_DIR/iterm2"
+    defaults write com.googlecode.iterm2 LoadPrefsFromCustomFolder -bool true
+    echo -e "${GREEN}set${NC}    iTerm2 prefs -> $DOTFILES_DIR/iterm2"
+fi
+
 # Neovim config
 NVIM_DIR="${XDG_CONFIG_HOME:-$HOME/.config}/nvim"
 if [ ! -d "$NVIM_DIR/.git" ]; then
